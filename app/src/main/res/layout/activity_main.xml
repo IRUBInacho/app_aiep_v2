@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tituloTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="26sp"
+            android:textColor="#212121"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
+
+        <!-- Monto de compra -->
+        <EditText
+            android:id="@+id/compraInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Total de compra ($)"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botón ubicación -->
+        <Button
+            android:id="@+id/btnUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Obtener ubicación"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Resultado ubicación -->
+        <TextView
+            android:id="@+id/locationTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/error_ubicacion"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:background="#E0E0E0"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Costo de despacho -->
+        <TextView
+            android:id="@+id/costoDespachoTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Costo de despacho: $0"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:background="#E0E0E0"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Botón seleccionar ubicación en el mapa -->
+        <Button
+            android:id="@+id/btnSeleccionarUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar ubicación de referencia"
+            android:backgroundTint="#388E3C"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botón cerrar sesión -->
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar sesión"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+
+    </LinearLayout>
+</ScrollView>

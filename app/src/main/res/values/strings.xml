@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">app_aiep_v2</string>
+    <string name="ubicacion">Lat: %1$s\nLon: %2$s\nDistancia a Plaza: %3$.2f km</string>
+    <string name="error_ubicacion">No se pudo obtener la ubicación</string>
+    <string name="permiso_denegado">Permiso de ubicación denegado.</string>
+
+</resources>
