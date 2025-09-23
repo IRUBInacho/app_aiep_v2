@@ -1,8 +1,6 @@
 package com.tutorial.app_aiep_v2
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,7 +15,6 @@ import kotlin.math.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationTv: TextView
     private lateinit var btnUbicacion: Button
     private lateinit var logoutBtn: Button
@@ -30,8 +22,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var costoDespachoTv: TextView
     private lateinit var btnSeleccionarUbicacion: Button
 
+    // 🚚 Ubicación del transporte (referencia)
     private var referenciaLat = -33.4372
     private var referenciaLon = -70.6506
+
+    // 📱 Ubicación fija de la app
+    private val appLat = -33.432300
+    private val appLon = -70.681073
 
     private val db = Firebase.firestore
 
@@ -39,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationTv = findViewById(R.id.locationTv)
         btnUbicacion = findViewById(R.id.btnUbicacion)
         logoutBtn = findViewById(R.id.logoutBtn)
@@ -71,35 +67,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 🔹 Siempre devolverá la ubicación fija de la app
     private fun getCurrentLocation() {
-        val fine = Manifest.permission.ACCESS_FINE_LOCATION
-        val coarse = Manifest.permission.ACCESS_COARSE_LOCATION
-        val hasFine = ActivityCompat.checkSelfPermission(this, fine) == PackageManager.PERMISSION_GRANTED
-        val hasCoarse = ActivityCompat.checkSelfPermission(this, coarse) == PackageManager.PERMISSION_GRANTED
-
-        if (!hasFine && !hasCoarse) {
-            ActivityCompat.requestPermissions(this, arrayOf(fine), 1)
-            return
+        val location = Location("manual").apply {
+            latitude = appLat
+            longitude = appLon
         }
-
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
-            if (location != null) {
-                mostrarResultado(location)
-            } else {
-                val cts = CancellationTokenSource()
-                fusedLocationProviderClient.getCurrentLocation(
-                    Priority.PRIORITY_HIGH_ACCURACY,
-                    cts.token
-                ).addOnSuccessListener { loc2: Location? ->
-                    if (loc2 != null) {
-                        mostrarResultado(loc2)
-                    } else {
-                        locationTv.text = getString(R.string.error_ubicacion)
-                        locationTv.visibility = TextView.VISIBLE
-                    }
-                }
-            }
-        }
+        mostrarResultado(location)
     }
 
     private fun mostrarResultado(location: Location) {
@@ -156,21 +130,5 @@ class MainActivity : AppCompatActivity() {
                 sin(dLon / 2).pow(2.0)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return R * c
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1 && grantResults.isNotEmpty() &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            getCurrentLocation()
-        } else {
-            locationTv.text = getString(R.string.permiso_denegado)
-            locationTv.visibility = TextView.VISIBLE
-        }
     }
 }
