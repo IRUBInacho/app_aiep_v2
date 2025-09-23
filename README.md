@@ -18,7 +18,4 @@ Esta aplicación móvil permite a los usuarios realizar compras en una distribui
 - Firebase Authentication (para login con Gmail)
 - Sensor de temperatura (simulado o real, según disponibilidad)
 
-## 📦 Instalación
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/nombre-del-repo.git
+
