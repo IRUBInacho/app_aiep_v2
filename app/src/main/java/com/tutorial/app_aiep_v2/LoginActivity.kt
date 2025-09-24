@@ -53,7 +53,21 @@ class LoginActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 Log.w("AUTH", "Error login", e)
-                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+
+                val errorMsg = when {
+                    email.isEmpty() || password.isEmpty() ->
+                        "Debes ingresar correo y contraseña"
+                    e.message?.contains("badly formatted", ignoreCase = true) == true ->
+                        "El correo ingresado no es válido"
+                    e.message?.contains("no user record", ignoreCase = true) == true ->
+                        "El usuario no existe. Regístrate primero"
+                    e.message?.contains("password is invalid", ignoreCase = true) == true ->
+                        "Contraseña incorrecta"
+                    else ->
+                        "Error de autenticación. Inténtalo nuevamente"
+                }
+
+                Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
             }
     }
 }
