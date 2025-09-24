@@ -26,4 +26,3 @@
 - [ ] Permisos de ubicación
 - [ ] Integración con GPS del dispositivo
 - [ ] Obtención automática de coordenadas
-- [ ] Conversión a dirección legible
